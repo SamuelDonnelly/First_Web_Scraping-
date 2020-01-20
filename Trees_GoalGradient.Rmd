@@ -1,0 +1,39 @@
+---
+title: "Trees_Data"
+author: "Sam Donnelly"
+date: "12/20/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Packages
+```{r warning=FALSE, message=FALSE}
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+```
+
+```{r warning=FALSE, message=FALSE}
+# Read in .csv data logs
+file <- read.csv(file = "C:/Users/donne/Dropbox/Web Scraping/Data Logs/datalogs.csv")
+
+differences <- diff(file$Total_Trees) # Find donation differences between data points 
+
+data_point <- c(1:8) # Create vector for data points
+
+data <- data.frame(data_point, differences) # Create dataframe
+
+# Graph
+ggplot(data, aes(x = data_point, y = differences)) +
+  geom_col(color = "black", fill = "darkgreen") +
+  scale_y_discrete() +
+  labs(title = "Goal Gradient Hypothesis Test",
+       x = "Data Point",
+       y = "Donations in $ ymax = 626676")
+
+```

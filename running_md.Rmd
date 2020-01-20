@@ -1,0 +1,38 @@
+---
+title: "Running_Script"
+author: "Sam Donnelly"
+date: "12/12/2019"
+output: html_document
+---
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+# Load Packages
+library(miniUI)
+library(shiny)
+library(shinyFiles)
+library(taskscheduleR)
+library(rvest)
+library(dplyr)
+library(magrittr)
+library(readr)
+
+rm(list = ls()) # Clear Environment
+
+team_trees <- read_html("https://teamtrees.org/") # Read in URL
+
+# Web scrape Total Trees
+count <- team_trees %>% 
+  html_nodes("#totalTrees") %>%
+  html_attr("data-count")
+
+# Convert output from 'char' to 'num' 
+total_trees <- count %>%
+  as.numeric()
+
+day <- Sys.time() # Create column for day and time of extraction
+
+data <- data.frame(total_trees, day) # Create dataframe to store extractions
+data 
+write_csv(data, path ="datalogs.csv", append = TRUE) # Save dataframes to pc
+```
+
